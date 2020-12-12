@@ -1,0 +1,29 @@
+I. 目录结构说明：
+- data  本文件夹下存放foo.csv，由tools/gen_data.sh生成数据
+- tools 本文件夹下存放测试过程中的工具脚本
+- imp   本文件夹下存放试题要求中的多个实现
+- result  本文件夹下存放各种实现的测试数据
+
+II. 性能测试的结果
+	<1>. bash 脚本
+		[root@localhost i0]# time ./query.sh 
+		 ... ...
+		real	0m0.034s
+		user	0m0.026s
+		sys	0m0.007s
+	<2>. python脚本
+		[root@localhost i1]# time ./query.py 
+		 ... ...
+		real	0m0.120s
+		user	0m0.103s
+		sys	0m0.016s
+		
+III. 性能分析
+	python提供丰富功能的数据结构便利性的同时牺牲了部分性能, bash脚本相对python更贴近于C的性能；
+	考虑到实现工作量的问题，没有继续实现c版本(需要原生hash表、文件操作、红黑树或数组等操作)，相信C会提供更好的性能。
+	如果数据规模的量更大一些，性能提升的角度如下：
+	A. 文件IO 这部分是比较耗时的，可能需要考虑并发多IO的实现
+	B. 存储格式 二进制的存储格式会降低存储容量，同时降低格式转换的cpu消耗
+	C. 引入map reduce的任务处理机制，调动更多的cpu资源参与运算
+	D. 优化数据结构和处理算法，降低核心运算的cpu消耗
+	E. ... ...
